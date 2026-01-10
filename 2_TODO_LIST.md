@@ -4,10 +4,13 @@
 
 ### 1. Authentification Centralisée avec Keycloak
 
-- [x] Installation et configuration de Keycloak
+- [x] Installation et configuration de Keycloak (Docker v26.0.0)
 - [x] Création du realm `microservices-realm`
 - [x] Configuration du protocole OpenID Connect
 - [x] Integration avec les services backend
+- [x] Persistence avec volumes Docker
+- [x] Realm auto-import au démarrage
+- [x] Profile scope avec mapper preferred_username
 
 ### 2. Configuration des Clients Keycloak
 
@@ -46,29 +49,45 @@
 - [x] Endpoints de base
   - [x] GET /products (public ou authentifié)
   - [x] GET /products/admin (admin seulement)
-- [ ] Model et couche métier
-  - [ ] Entity Product
-  - [ ] Repository
-  - [ ] Service
-- [ ] CRUD complet
-- [ ] Contrôle d'accès basé sur les rôles (RBAC)
-- [ ] Validation des données
+- [x] Model et couche métier
+  - [x] Entity Product (avec validation @NotBlank, @Positive)
+  - [x] Repository avec custom queries
+  - [x] Service avec business logic
+- [x] CRUD complet
+  - [x] GET /products (list all)
+  - [x] GET /products/{id}
+  - [x] GET /products/search?name=...
+  - [x] GET /products/available
+  - [x] POST /products (ADMIN only)
+  - [x] PUT /products/{id} (ADMIN only)
+  - [x] DELETE /products/{id} (ADMIN only)
+- [x] Contrôle d'accès basé sur les rôles (RBAC)
+- [x] Validation des données
+- [x] H2 Database avec 10 produits seed
 
 #### Order Service (Port 8082)
 
 - [x] Initialisation Spring Boot avec Spring Security
 - [x] Configuration OAuth2 Resource Server
 - [x] Endpoints de base
-  - [x] GET /orders (public ou authentifié)
+  - [x] GET /orders (mes commandes)
   - [x] POST /orders (créer commande)
-  - [x] GET /orders/admin (admin seulement)
-- [ ] Model et couche métier
-  - [ ] Entity Order
-  - [ ] Repository
-  - [ ] Service
-- [ ] CRUD complet
-- [ ] Intégration avec Product Service
-- [ ] Contrôle d'accès basé sur les rôles
+  - [x] GET /orders/admin (ADMIN/MANAGER only)
+- [x] Model et couche métier
+  - [x] Entity Order avec OrderStatus enum
+  - [x] Repository avec custom queries
+  - [x] Service avec business logic
+- [x] CRUD complet
+  - [x] GET /orders (user's orders only)
+  - [x] GET /orders/{id}
+  - [x] GET /orders/admin (all orders)
+  - [x] POST /orders (create order)
+  - [x] PUT /orders/{id}/status (ADMIN/MANAGER only)
+  - [x] DELETE /orders/{id} (ADMIN only)
+  - [x] GET /orders/status/{status}
+- [x] Username extraction depuis JWT (preferred_username)
+- [x] Contrôle d'accès basé sur les rôles
+- [x] H2 Database avec 5 commandes seed
 
 #### API Gateway (Port 8085)
 
@@ -96,11 +115,17 @@
 - [x] Appels API avec authentification
   - [x] Intercepteur Axios pour ajouter le Bearer token
   - [x] Gestion des erreurs 401/403
-- [ ] Interface utilisateur
-  - [ ] List products
-  - [ ] Create order
-  - [ ] List orders
-  - [ ] Admin panel
+- [x] Utilitaires de développement
+  - [x] window.keycloak exposé pour tests
+  - [x] Bouton "Copier Token"
+  - [x] Bouton "Voir Token Info"
+- [ ] Interface utilisateur enrichie
+  - [ ] List products avec recherche/filtres
+  - [ ] Create order avec formulaire
+  - [ ] List orders avec statuts
+  - [ ] Admin panel pour gestion complète
+  - [ ] React Router pour navigation
+  - [ ] Material-UI ou Tailwind CSS
 
 ### 6. Sécurité
 
@@ -109,10 +134,18 @@
 - [x] Validation des tokens JWT
 - [x] Refresh tokens
 - [x] Logout et session invalidation
-- [x] Protection des endpoints sensibles
-
 ### 7. Documentation et Configuration
 
+- [ ] Documentation API (Swagger/OpenAPI)
+- [ ] Variables d'environnement pour configuration
+- [ ] Dockerfile pour chaque service
+- [x] Docker Compose pour Keycloak
+- [x] README Keycloak avec instructions
+- [ ] Diagrammes d'architecture
+- [x] Scripts d'automatisation
+  - [x] start-services.sh
+  - [x] stop-services.sh
+  - [x] check-services.sh
 - [ ] Documentation API (Swagger/OpenAPI)
 - [ ] Variables d'environnement pour configuration
 - [ ] Dockerfile pour chaque service
@@ -130,25 +163,38 @@
 ### 9. Déploiement
 
 - [ ] CI/CD pipeline
-- [ ] Configuration production
-- [ ] Monitoring et logs
-- [ ] Gestion des secrets
-
 ## Résumé du Statut
 
-### Complété (65%)
-- Configuration complète OAuth2/OIDC avec Keycloak
-- Realm avec utilisateurs, rôles et clients configurés
-- Services Spring Boot avec Resource Server
-- Application React avec authentification fonctionnelle
-- Gestion des tokens JWT et refresh tokens
-- CORS et sécurité de base
+### ✅ Complété (85%)
+- ✅ Configuration complète OAuth2/OIDC avec Keycloak
+- ✅ Realm avec utilisateurs, rôles et clients configurés
+- ✅ Profile scope avec mapper preferred_username
+- ✅ Services Spring Boot avec Resource Server
+- ✅ Application React avec authentification fonctionnelle
+- ✅ Gestion des tokens JWT et refresh tokens
+- ✅ CORS et sécurité de base (PKCE, Bearer-only, RBAC)
+- ✅ **NOUVEAU** : Business layer complet (Entities, Repositories, Services)
+- ✅ **NOUVEAU** : CRUD complet avec validation et RBAC
+- ✅ **NOUVEAU** : H2 Database avec données seed
+- ✅ **NOUVEAU** : Extraction username depuis JWT
+- ✅ **NOUVEAU** : Scripts d'automatisation
 
-### En Cours (15%)
-- Implémentation des modèles métier (Entities)
-- Tests et validation
+### 🔨 À Faire (15%)
+- Interface utilisateur enrichie (React Router, Material-UI)
+- Tests unitaires et intégration
+- Documentation API (Swagger/OpenAPI)
+- Déploiement et CI/CD
 
-### À Faire (20%)
+## 🎯 Prochaine Étape : Option 3 - Interface React Enrichie
+
+### Fonctionnalités à implémenter :
+1. **React Router** : Navigation entre pages
+2. **Liste Produits** : Affichage avec recherche/filtres
+3. **Formulaire Commande** : Création de commandes
+4. **Liste Commandes** : Historique utilisateur
+5. **Panel Admin** : Gestion complète (ADMIN only)
+6. **Panel Manager** : Gestion des statuts (MANAGER only)
+7. **UI/UX** : Material-UI ou Tailwind CSS
 - Logique métier complète (Entities, Repositories, Services)
 - Interface utilisateur enrichie
 - Tests unitaires et intégration

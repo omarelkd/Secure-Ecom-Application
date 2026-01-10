@@ -33,6 +33,22 @@ function App({ keycloak }) {
         alert(response.data);
     };
 
+    const copyToken = async () => {
+        await keycloak.updateToken(30);
+        navigator.clipboard.writeText(keycloak.token);
+        alert("Token copié dans le presse-papier !");
+    };
+
+    const showTokenInfo = () => {
+        console.log("=== TOKEN INFO ===");
+        console.log("Token:", keycloak.token);
+        console.log("Username:", keycloak.tokenParsed.preferred_username);
+        console.log("Email:", keycloak.tokenParsed.email);
+        console.log("Rôles:", keycloak.tokenParsed.realm_access.roles);
+        console.log("Expire dans:", Math.floor((keycloak.tokenParsed.exp * 1000 - Date.now()) / 1000), "secondes");
+        alert("Token info affiché dans la console (F12)");
+    };
+
     return (
         <div style={{ padding: "30px", fontFamily: "Arial" }}>
             <h2>React + Keycloak + API Gateway</h2>
@@ -54,6 +70,16 @@ function App({ keycloak }) {
 
             <button onClick={callOrders} style={{ marginLeft: "10px" }}>
                 Créer Commande
+            </button>
+
+            <br /><br />
+
+            <button onClick={copyToken} style={{ backgroundColor: "#4CAF50", color: "white" }}>
+                📋 Copier Token
+            </button>
+
+            <button onClick={showTokenInfo} style={{ marginLeft: "10px", backgroundColor: "#2196F3", color: "white" }}>
+                ℹ️ Voir Token Info
             </button>
 
             <br /><br />

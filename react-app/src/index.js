@@ -12,6 +12,9 @@ keycloak.init({
         window.location.reload();
     }
 
+    // Exposer keycloak globalement pour les tests
+    window.keycloak = keycloak;
+
     const root = ReactDOM.createRoot(document.getElementById("root"));
     root.render(<App keycloak={keycloak} />);
 });

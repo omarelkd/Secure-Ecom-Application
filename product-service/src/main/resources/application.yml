@@ -10,3 +10,32 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8080/realms/microservices-realm
+
+  datasource:
+    url: jdbc:h2:mem:productdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always
+
+logging:
+  level:
+    ma.enset.productservice: DEBUG
+    org.springframework.security: DEBUG
