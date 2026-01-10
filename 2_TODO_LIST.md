@@ -20,22 +20,22 @@
 
 #### Configuration des Clients
 
-- [ ] Redirection URIs complètement configurées pour chaque client
-- [ ] Parametres CORS optimisés
-- [ ] Secret management (clients confidentiels)
-- [ ] Mappage des rôles par client
+- [x] Redirection URIs complètement configurées pour chaque client
+- [x] Parametres CORS optimisés
+- [x] Secret management (clients confidentiels)
+- [x] Mappage des rôles par client
 
 ### 3. Utilisateurs et Rôles
 
-- [ ] Créer utilisateurs de test
-  - [ ] user (rôle USER)
-  - [ ] admin (rôle ADMIN)
-  - [ ] manager (rôle MANAGER)
-- [ ] Configurer les mappages de rôles
-- [ ] Créer les rôles répertoire
-  - [ ] USER
-  - [ ] ADMIN
-  - [ ] MANAGER
+- [x] Créer utilisateurs de test
+  - [x] user (rôle USER)
+  - [x] admin (rôle ADMIN)
+  - [x] manager (rôle MANAGER)
+- [x] Configurer les mappages de rôles
+- [x] Créer les rôles répertoire
+  - [x] ROLE_USER
+  - [x] ROLE_ADMIN
+  - [x] ROLE_MANAGER
 
 ### 4. Services Backend - Spring Boot
 
@@ -80,22 +80,22 @@
 - [ ] Rate limiting
 - [ ] Retry logic
 - [ ] Logging centralisé
-- [ ] CORS configuré
+- [x] CORS configuré
 
 ### 5. Frontend - React Application
 
 - [x] Initialisation React
 - [x] Intégration keycloak-js (v26.2.1)
 - [x] Configuration basique du client
-- [ ] Page de login
-- [ ] Page de dashboard utilisateur
-- [ ] Gestion des tokens JWT
-  - [ ] Storage sécurisé des tokens
-  - [ ] Refresh token automatique
-  - [ ] Logout
-- [ ] Appels API avec authentification
-  - [ ] Intercepteur Axios pour ajouter le Bearer token
-  - [ ] Gestion des erreurs 401/403
+- [x] Page de login (via Keycloak)
+- [x] Page de dashboard utilisateur
+- [x] Gestion des tokens JWT
+  - [x] Storage sécurisé des tokens (géré par keycloak-js)
+  - [x] Refresh token automatique
+  - [x] Logout
+- [x] Appels API avec authentification
+  - [x] Intercepteur Axios pour ajouter le Bearer token
+  - [x] Gestion des erreurs 401/403
 - [ ] Interface utilisateur
   - [ ] List products
   - [ ] Create order
@@ -105,11 +105,11 @@
 ### 6. Sécurité
 
 - [ ] HTTPS en production
-- [ ] CORS configuré correctement
-- [ ] Validation des tokens JWT
-- [ ] Refresh tokens
-- [ ] Logout et session invalidation
-- [ ] Protection des endpoints sensibles
+- [x] CORS configuré correctement
+- [x] Validation des tokens JWT
+- [x] Refresh tokens
+- [x] Logout et session invalidation
+- [x] Protection des endpoints sensibles
 
 ### 7. Documentation et Configuration
 
@@ -136,20 +136,21 @@
 
 ## Résumé du Statut
 
-### Complété (40%)
-- Configuration de base OAuth2/OIDC
-- Création des services Spring Boot
-- Configuration Keycloak basique
-- Initialisation React avec keycloak-js
+### Complété (65%)
+- Configuration complète OAuth2/OIDC avec Keycloak
+- Realm avec utilisateurs, rôles et clients configurés
+- Services Spring Boot avec Resource Server
+- Application React avec authentification fonctionnelle
+- Gestion des tokens JWT et refresh tokens
+- CORS et sécurité de base
 
-### En Cours (20%)
-- Intégration complète des services
-- Implémentation des modèles métier
-- Création des utilisateurs/rôles Keycloak
-
-### À Faire (40%)
-- Logique métier complète
-- Interface utilisateur
+### En Cours (15%)
+- Implémentation des modèles métier (Entities)
 - Tests et validation
-- Documentation et déploiement
+
+### À Faire (20%)
+- Logique métier complète (Entities, Repositories, Services)
+- Interface utilisateur enrichie
+- Tests unitaires et intégration
+- Documentation API et déploiement
 
