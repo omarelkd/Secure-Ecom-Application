@@ -1,0 +1,220 @@
+version: '3.8'
+
+# ============= DOCKER COMPOSE POUR PRODUCTION =============
+# À utiliser avec: docker-compose -f docker-compose.prod.yml up
+
+services:
+  # ============= DATABASES =============
+  
+  postgres-keycloak:
+    image: postgres:15-alpine
+    container_name: postgres_keycloak_prod
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-keycloak}
+      POSTGRES_USER: ${POSTGRES_USER:-keycloak}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres_keycloak_data:/var/lib/postgresql/data
+    networks:
+      - microservices_network
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-keycloak}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ============= AUTHENTICATION =============
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.0
+    container_name: keycloak_server_prod
+    environment:
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:?Set KEYCLOAK_ADMIN in .env}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:?Set KEYCLOAK_ADMIN_PASSWORD in .env}
+      DB_VENDOR: postgres
+      DB_ADDR: postgres-keycloak
+      DB_DATABASE: ${POSTGRES_DB:-keycloak}
+      DB_USER: ${POSTGRES_USER:-keycloak}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      KC_PROXY: ${KC_PROXY:-edge}
+      KC_HOSTNAME: ${KEYCLOAK_HOSTNAME:-keycloak}
+      KC_HOSTNAME_PORT: ${KEYCLOAK_HOSTNAME_PORT:-443}
+      KC_HOSTNAME_PROTOCOL: ${KEYCLOAK_HOSTNAME_PROTOCOL:-https}
+      KC_HTTP_RELATIVE_PATH: /auth
+      KC_LOG_LEVEL: WARN
+    depends_on:
+      postgres-keycloak:
+        condition: service_healthy
+    networks:
+      - microservices_network
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/auth/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      - "com.project=oauth2-oidc"
+      - "com.service=auth"
+
+  # ============= MICROSERVICES =============
+
+  product-service:
+    build:
+      context: ./product-service
+      dockerfile: Dockerfile
+    container_name: product_service_prod
+    environment:
+      SPRING_APPLICATION_NAME: product-service
+      SERVER_PORT: ${SERVER_PORT_PRODUCT:-8081}
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:productdb
+      SPRING_DATASOURCE_DRIVERCLASSNAME: org.h2.Driver
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/auth/realms/microservices-realm
+      SPRING_PROFILES_ACTIVE: prod
+      LOGGING_LEVEL_ROOT: ${SPRING_LOGGING_LEVEL_ROOT:-WARN}
+      LOGGING_LEVEL_MA_ENSET: ${SPRING_LOGGING_LEVEL_MA_ENSET:-INFO}
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    networks:
+      - microservices_network
+    restart: always
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:${SERVER_PORT_PRODUCT:-8081}/products"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      - "com.project=oauth2-oidc"
+      - "com.service=microservice"
+
+  order-service:
+    build:
+      context: ./order-service
+      dockerfile: Dockerfile
+    container_name: order_service_prod
+    environment:
+      SPRING_APPLICATION_NAME: order-service
+      SERVER_PORT: ${SERVER_PORT_ORDER:-8082}
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:orderdb
+      SPRING_DATASOURCE_DRIVERCLASSNAME: org.h2.Driver
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/auth/realms/microservices-realm
+      SPRING_PROFILES_ACTIVE: prod
+      LOGGING_LEVEL_ROOT: ${SPRING_LOGGING_LEVEL_ROOT:-WARN}
+      LOGGING_LEVEL_MA_ENSET: ${SPRING_LOGGING_LEVEL_MA_ENSET:-INFO}
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    networks:
+      - microservices_network
+    restart: always
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:${SERVER_PORT_ORDER:-8082}/orders"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      - "com.project=oauth2-oidc"
+      - "com.service=microservice"
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: api_gateway_prod
+    environment:
+      SPRING_APPLICATION_NAME: api-gateway
+      SERVER_PORT: ${SERVER_PORT_GATEWAY:-8085}
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/auth/realms/microservices-realm
+      SPRING_PROFILES_ACTIVE: prod
+      LOGGING_LEVEL_ROOT: ${SPRING_LOGGING_LEVEL_ROOT:-WARN}
+      LOGGING_LEVEL_SPRING_SECURITY: ${SPRING_LOGGING_LEVEL_SPRING_SECURITY:-WARN}
+      SPRING_CLOUD_GATEWAY_ROUTES_0_ID: product-service
+      SPRING_CLOUD_GATEWAY_ROUTES_0_URI: http://product-service:${SERVER_PORT_PRODUCT:-8081}
+      SPRING_CLOUD_GATEWAY_ROUTES_0_PREDICATES_0: Path=/products/**
+      SPRING_CLOUD_GATEWAY_ROUTES_1_ID: order-service
+      SPRING_CLOUD_GATEWAY_ROUTES_1_URI: http://order-service:${SERVER_PORT_ORDER:-8082}
+      SPRING_CLOUD_GATEWAY_ROUTES_1_PREDICATES_0: Path=/orders/**
+    depends_on:
+      - product-service
+      - order-service
+      - keycloak
+    networks:
+      - microservices_network
+    restart: always
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:${SERVER_PORT_GATEWAY:-8085}/products"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      - "com.project=oauth2-oidc"
+      - "com.service=gateway"
+
+  # ============= FRONTEND =============
+
+  frontend:
+    build:
+      context: ./react-app
+      dockerfile: Dockerfile
+    container_name: react_frontend_prod
+    environment:
+      REACT_APP_KEYCLOAK_URL: ${REACT_APP_KEYCLOAK_URL:-http://localhost:8080}
+      REACT_APP_API_URL: ${REACT_APP_API_URL:-http://localhost:8085}
+    depends_on:
+      - gateway
+    networks:
+      - microservices_network
+    restart: always
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      - "com.project=oauth2-oidc"
+      - "com.service=frontend"
+
+volumes:
+  postgres_keycloak_data:
+    driver: local
+
+networks:
+  microservices_network:
+    driver: bridge
