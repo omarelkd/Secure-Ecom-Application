@@ -20,7 +20,11 @@ const ProtectedRoute = ({ children, roles, keycloak }) => {
     );
   }
 
-  const hasRole = roles.some(role => keycloak.hasRealmRole(role));
+  // Convertir les rôles fournis en rôles Keycloak (sans ROLE_ prefix)
+  const normalizedRoles = roles.map(role => role.replace(/^ROLE_/, '').toLowerCase());
+  
+  // Vérifier les rôles : keycloak.hasRealmRole() prend les rôles sans préfixe
+  const hasRole = normalizedRoles.some(role => keycloak.hasRealmRole(role));
 
   if (!hasRole) {
     return (

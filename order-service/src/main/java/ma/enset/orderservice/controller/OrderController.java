@@ -23,6 +23,9 @@ public class OrderController {
 
     @GetMapping
     public ResponseEntity<List<OrderResponse>> getMyOrders(Authentication authentication) {
+        if (authentication == null) {
+            return ResponseEntity.ok(List.of());  // Retourner liste vide si pas authentifié
+        }
         String username = extractUsername(authentication);
         List<OrderResponse> orders = orderService.getOrdersByUsername(username);
         return ResponseEntity.ok(orders);
