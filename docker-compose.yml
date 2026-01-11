@@ -192,4 +192,3 @@ volumes:
 networks:
   microservices_network:
     driver: bridge
-    driver: bridge
