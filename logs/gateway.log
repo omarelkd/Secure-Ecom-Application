@@ -35,28 +35,28 @@
 
  :: Spring Boot ::                (v3.5.9)
 
-2026-01-11T00:04:37.970+01:00  INFO 197010 --- [api-gateway] [           main] ma.enset.gateway.GatewayApplication      : Starting GatewayApplication using Java 21.0.9 with PID 197010 (/home/ellayli/enset_CCN/s5/security of sd/Secure-Ecom-Application/gateway/target/classes started by ellayli in /home/ellayli/enset_CCN/s5/security of sd/Secure-Ecom-Application/gateway)
-2026-01-11T00:04:37.978+01:00  INFO 197010 --- [api-gateway] [           main] ma.enset.gateway.GatewayApplication      : No active profile set, falling back to 1 default profile: "default"
-2026-01-11T00:04:40.596+01:00  INFO 197010 --- [api-gateway] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=3ad2d6d0-47e0-359b-a05e-19a63cb2b936
-2026-01-11T00:04:42.038+01:00  INFO 197010 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [After]
-2026-01-11T00:04:42.038+01:00  INFO 197010 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Before]
-2026-01-11T00:04:42.038+01:00  INFO 197010 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Between]
-2026-01-11T00:04:42.039+01:00  INFO 197010 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Cookie]
-2026-01-11T00:04:42.039+01:00  INFO 197010 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Header]
-2026-01-11T00:04:42.039+01:00  INFO 197010 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Host]
-2026-01-11T00:04:42.039+01:00  INFO 197010 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Method]
-2026-01-11T00:04:42.039+01:00  INFO 197010 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Path]
-2026-01-11T00:04:42.039+01:00  INFO 197010 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Query]
-2026-01-11T00:04:42.039+01:00  INFO 197010 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [ReadBody]
-2026-01-11T00:04:42.039+01:00  INFO 197010 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [RemoteAddr]
-2026-01-11T00:04:42.039+01:00  INFO 197010 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [XForwardedRemoteAddr]
-2026-01-11T00:04:42.040+01:00  INFO 197010 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Weight]
-2026-01-11T00:04:42.040+01:00  INFO 197010 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [CloudFoundryRouteService]
-2026-01-11T00:04:44.442+01:00  WARN 197010 --- [api-gateway] [           main] onfigReactiveWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
-2026-01-11T00:04:44.491+01:00  INFO 197010 --- [api-gateway] [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
+2026-01-11T01:59:16.507+01:00  INFO 311952 --- [api-gateway] [           main] ma.enset.gateway.GatewayApplication      : Starting GatewayApplication using Java 21.0.9 with PID 311952 (/home/ellayli/enset_CCN/s5/security of sd/Secure-Ecom-Application/gateway/target/classes started by ellayli in /home/ellayli/enset_CCN/s5/security of sd/Secure-Ecom-Application/gateway)
+2026-01-11T01:59:16.522+01:00  INFO 311952 --- [api-gateway] [           main] ma.enset.gateway.GatewayApplication      : No active profile set, falling back to 1 default profile: "default"
+2026-01-11T01:59:22.938+01:00  INFO 311952 --- [api-gateway] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=3ad2d6d0-47e0-359b-a05e-19a63cb2b936
+2026-01-11T01:59:27.513+01:00  INFO 311952 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [After]
+2026-01-11T01:59:27.514+01:00  INFO 311952 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Before]
+2026-01-11T01:59:27.515+01:00  INFO 311952 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Between]
+2026-01-11T01:59:27.515+01:00  INFO 311952 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Cookie]
+2026-01-11T01:59:27.515+01:00  INFO 311952 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Header]
+2026-01-11T01:59:27.516+01:00  INFO 311952 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Host]
+2026-01-11T01:59:27.516+01:00  INFO 311952 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Method]
+2026-01-11T01:59:27.516+01:00  INFO 311952 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Path]
+2026-01-11T01:59:27.516+01:00  INFO 311952 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Query]
+2026-01-11T01:59:27.516+01:00  INFO 311952 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [ReadBody]
+2026-01-11T01:59:27.516+01:00  INFO 311952 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [RemoteAddr]
+2026-01-11T01:59:27.516+01:00  INFO 311952 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2026-01-11T01:59:27.517+01:00  INFO 311952 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Weight]
+2026-01-11T01:59:27.517+01:00  INFO 311952 --- [api-gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2026-01-11T01:59:30.444+01:00  WARN 311952 --- [api-gateway] [           main] onfigReactiveWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2026-01-11T01:59:30.473+01:00  INFO 311952 --- [api-gateway] [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
 
 Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
-2026-01-11T00:04:44.523+01:00 ERROR 197010 --- [api-gateway] [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+2026-01-11T01:59:30.510+01:00 ERROR 311952 --- [api-gateway] [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
 
 ***************************
 APPLICATION FAILED TO START
@@ -73,8 +73,8 @@ Identify and stop the process that's listening on port 8085 or configure this ap
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD FAILURE
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  17.449 s
-[INFO] Finished at: 2026-01-11T00:04:45+01:00
+[INFO] Total time:  26.329 s
+[INFO] Finished at: 2026-01-11T01:59:31+01:00
 [INFO] ------------------------------------------------------------------------
 [ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:3.5.9:run (default-cli) on project gateway: Process terminated with exit code: 1 -> [Help 1]
 [ERROR] 
