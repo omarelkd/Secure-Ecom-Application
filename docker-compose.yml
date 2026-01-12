@@ -129,10 +129,12 @@ services:
       context: ./gateway
       dockerfile: Dockerfile
     container_name: api_gateway
+    extra_hosts:
+      - "localhost:host-gateway"
     environment:
       SPRING_APPLICATION_NAME: api-gateway
       SERVER_PORT: 8085
-      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/realms/microservices-realm
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://localhost:8080/realms/microservices-realm
       SPRING_CLOUD_GATEWAY_ROUTES_0_ID: product-service
       SPRING_CLOUD_GATEWAY_ROUTES_0_URI: http://product-service:8081
       SPRING_CLOUD_GATEWAY_ROUTES_0_PREDICATES_0: Path=/products/**
@@ -168,7 +170,7 @@ services:
         REACT_APP_KEYCLOAK_URL: http://localhost:8080
         REACT_APP_KEYCLOAK_REALM: microservices-realm
         REACT_APP_KEYCLOAK_CLIENT_ID: react-client
-        REACT_APP_API_URL: http://localhost:8085
+        REACT_APP_API_URL: /api
     container_name: react_frontend
     ports:
       - "3000:3000"

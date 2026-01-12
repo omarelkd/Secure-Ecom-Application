@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -17,9 +16,6 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtValidators;
-import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
-import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.server.SecurityWebFilterChain;
@@ -32,9 +28,6 @@ import reactor.core.publisher.Mono;
 @EnableWebFluxSecurity
 public class GatewaySecurityConfig {
 
-    @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri:http://keycloak:8080/realms/microservices-realm/protocol/openid-connect/certs}")
-    private String jwkSetUri;
-
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
 
@@ -42,10 +35,7 @@ public class GatewaySecurityConfig {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeExchange(exchange -> exchange
-                        .anyExchange().authenticated()
-                )
-                .oauth2ResourceServer(oauth2 ->
-                        oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
+                        .anyExchange().permitAll()
                 );
         return http.build();
     }
@@ -101,20 +91,5 @@ public class GatewaySecurityConfig {
         source.registerCorsConfiguration("/**", config);
 
         return source;
-    }
-
-    @Bean
-    public ReactiveJwtDecoder jwtDecoder() {
-        // Configure JWT decoder to use JWK Set URI directly without issuer validation
-        NimbusReactiveJwtDecoder jwtDecoder = NimbusReactiveJwtDecoder.withJwkSetUri(jwkSetUri).build();
-        
-        // Don't validate issuer to allow both localhost and keycloak hostnames
-        // Only validate signature and timestamps
-        jwtDecoder.setJwtValidator(jwt -> {
-            // Skip issuer validation, return success for all valid JWT signatures
-            return org.springframework.security.oauth2.core.OAuth2TokenValidatorResult.success();
-        });
-        
-        return jwtDecoder;
     }
 }

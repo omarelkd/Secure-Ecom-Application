@@ -57,7 +57,7 @@ const Products = () => {
     }
 
     if (availableOnly) {
-      filtered = filtered.filter(p => p.quantity > 0);
+      filtered = filtered.filter(p => p.available);
     }
 
     setFilteredProducts(filtered);
@@ -163,7 +163,7 @@ const Products = () => {
                   variant="contained"
                   startIcon={<CartIcon />}
                   onClick={() => handleOrderClick(product)}
-                  disabled={product.quantity <= 0}
+                  disabled={!product.quantity || product.quantity <= 0}
                 >
                   Commander
                 </Button>

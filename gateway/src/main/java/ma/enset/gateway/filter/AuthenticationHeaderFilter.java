@@ -25,6 +25,13 @@ public class AuthenticationHeaderFilter implements GlobalFilter, Ordered {
         
         if (authHeader != null) {
             log.info("Authorization header value: {}", authHeader.substring(0, Math.min(20, authHeader.length())) + "...");
+            
+            // Propagate Authorization header to downstream services
+            ServerWebExchange mutatedExchange = exchange.mutate()
+                    .request(request -> request.header(HttpHeaders.AUTHORIZATION, authHeader))
+                    .build();
+            
+            return chain.filter(mutatedExchange);
         }
         
         return chain.filter(exchange);

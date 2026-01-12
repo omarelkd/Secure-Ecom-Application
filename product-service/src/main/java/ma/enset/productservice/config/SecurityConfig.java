@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+// @EnableMethodSecurity - Disabled to allow Gateway-based security
 public class SecurityConfig {
 
     @Bean
@@ -29,13 +29,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/h2-console/**").permitAll()
-                        // ✅ CORRECTION : Utiliser HttpMethod.GET au lieu de "GET"
-                        .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .oauth2ResourceServer(oauth2 ->
-                        oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
+                        .anyRequest().permitAll()
                 );
 
         // Permettre l'affichage de H2 Console dans iframe

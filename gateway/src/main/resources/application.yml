@@ -9,8 +9,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          # Configuration handled by custom ReactiveJwtDecoder bean
-          # to skip issuer validation
+          issuer-uri: http://keycloak:8080/realms/microservices-realm
 
   cloud:
     gateway:
@@ -19,14 +18,14 @@ spring:
           routes:
 
             - id: product-service
-              uri: http://product_service:8081
+              uri: http://product-service:8081
               predicates:
                 - Path=/products/**
               filters:
                 - PreserveHostHeader
 
             - id: order-service
-              uri: http://order_service:8082
+              uri: http://order-service:8082
               predicates:
                 - Path=/orders/**
               filters:

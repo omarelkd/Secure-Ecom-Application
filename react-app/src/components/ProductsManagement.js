@@ -22,7 +22,7 @@ const ProductsManagement = () => {
     name: '',
     description: '',
     price: '',
-    quantity: 0
+    available: true
   });
 
   useEffect(() => {
@@ -50,11 +50,11 @@ const ProductsManagement = () => {
         name: product.name,
         description: product.description,
         price: product.price,
-        quantity: product.quantity || 0
+        available: product.available
       });
     } else {
       setEditingProduct(null);
-      setFormData({ name: '', description: '', price: '', quantity: 0 });
+      setFormData({ name: '', description: '', price: '', available: true });
     }
     setDialogOpen(true);
   };
@@ -66,16 +66,10 @@ const ProductsManagement = () => {
 
   const handleSubmit = async () => {
     try {
-      const productData = {
-        ...formData,
-        price: parseFloat(formData.price),
-        quantity: parseInt(formData.quantity, 10)
-      };
-      
       if (editingProduct) {
-        await productService.updateProduct(editingProduct.id, productData);
+        await productService.updateProduct(editingProduct.id, formData);
       } else {
-        await productService.createProduct(productData);
+        await productService.createProduct(formData);
       }
       handleCloseDialog();
       loadProducts();
@@ -129,7 +123,6 @@ const ProductsManagement = () => {
               <TableCell><strong>Nom</strong></TableCell>
               <TableCell><strong>Description</strong></TableCell>
               <TableCell align="right"><strong>Prix</strong></TableCell>
-              <TableCell align="right"><strong>Quantité</strong></TableCell>
               <TableCell><strong>Disponibilité</strong></TableCell>
               <TableCell align="center"><strong>Actions</strong></TableCell>
             </TableRow>
@@ -141,11 +134,10 @@ const ProductsManagement = () => {
                 <TableCell>{product.name}</TableCell>
                 <TableCell>{product.description}</TableCell>
                 <TableCell align="right">{product.price ? product.price.toFixed(2) : '0.00'} MAD</TableCell>
-                <TableCell align="right">{product.quantity || 0}</TableCell>
                 <TableCell>
                   <Chip
-                    label={product.quantity > 0 ? 'Disponible' : 'Rupture'}
-                    color={product.quantity > 0 ? 'success' : 'error'}
+                    label={product.available ? 'Disponible' : 'Rupture'}
+                    color={product.available ? 'success' : 'error'}
                     size="small"
                   />
                 </TableCell>
@@ -196,19 +188,23 @@ const ProductsManagement = () => {
               type="number"
               label="Prix (MAD)"
               value={formData.price}
-              onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+              onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
               inputProps={{ step: '0.01', min: '0' }}
               required
             />
-            <TextField
-              fullWidth
-              type="number"
-              label="Quantité"
-              value={formData.quantity}
-              onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
-              inputProps={{ min: '0' }}
-              required
-            />
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <TextField
+                select
+                label="Disponibilité"
+                value={formData.available}
+                onChange={(e) => setFormData({ ...formData, available: e.target.value === 'true' })}
+                SelectProps={{ native: true }}
+                fullWidth
+              >
+                <option value="true">Disponible</option>
+                <option value="false">Rupture de stock</option>
+              </TextField>
+            </Box>
           </Box>
         </DialogContent>
         <DialogActions>
