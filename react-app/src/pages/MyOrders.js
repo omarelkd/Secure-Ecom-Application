@@ -116,7 +116,7 @@ const MyOrders = () => {
                     />
                   </TableCell>
                   <TableCell>
-                    {new Date(order.orderDate).toLocaleDateString('fr-FR', {
+                    {new Date(order.createdAt).toLocaleDateString('fr-FR', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric',

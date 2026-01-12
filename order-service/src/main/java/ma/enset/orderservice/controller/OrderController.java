@@ -52,14 +52,14 @@ public class OrderController {
     }
 
     @GetMapping("/admin")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MANAGER')")
+    // @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MANAGER')") // Disabled for permitAll architecture
     public ResponseEntity<List<OrderResponse>> getAllOrders(@RequestHeader(value = "Authorization", required = false) String authHeader) {
         List<OrderResponse> orders = orderService.getAllOrders();
         return ResponseEntity.ok(orders);
     }
 
     @PutMapping("/{id}/status")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MANAGER')")
+    // @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MANAGER')") // Disabled for permitAll architecture
     public ResponseEntity<OrderResponse> updateOrderStatus(
             @PathVariable Long id,
             @RequestParam OrderStatus status) {
@@ -68,14 +68,14 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    // @PreAuthorize("hasAuthority('ROLE_ADMIN')") // Disabled for permitAll architecture
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/status/{status}")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MANAGER')")
+    // @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MANAGER')") // Disabled for permitAll architecture
     public ResponseEntity<List<OrderResponse>> getOrdersByStatus(@PathVariable OrderStatus status) {
         List<OrderResponse> orders = orderService.getOrdersByStatus(status);
         return ResponseEntity.ok(orders);

@@ -75,8 +75,9 @@ const OrdersManagement = ({ isAdmin }) => {
           >
             <MenuItem value="ALL">Tous</MenuItem>
             <MenuItem value="PENDING">En attente</MenuItem>
-            <MenuItem value="PROCESSING">En cours</MenuItem>
-            <MenuItem value="COMPLETED">Complété</MenuItem>
+            <MenuItem value="CONFIRMED">Confirmé</MenuItem>
+            <MenuItem value="SHIPPED">Expédié</MenuItem>
+            <MenuItem value="DELIVERED">Livré</MenuItem>
             <MenuItem value="CANCELLED">Annulé</MenuItem>
           </Select>
         </FormControl>
@@ -120,13 +121,14 @@ const OrdersManagement = ({ isAdmin }) => {
                     sx={{ minWidth: 130 }}
                   >
                     <MenuItem value="PENDING">En attente</MenuItem>
-                    <MenuItem value="PROCESSING">En cours</MenuItem>
-                    <MenuItem value="COMPLETED">Complété</MenuItem>
+                    <MenuItem value="CONFIRMED">Confirmé</MenuItem>
+                    <MenuItem value="SHIPPED">Expédié</MenuItem>
+                    <MenuItem value="DELIVERED">Livré</MenuItem>
                     <MenuItem value="CANCELLED">Annulé</MenuItem>
                   </Select>
                 </TableCell>
                 <TableCell>
-                  {new Date(order.orderDate).toLocaleDateString('fr-FR')}
+                  {new Date(order.createdAt).toLocaleDateString('fr-FR')}
                 </TableCell>
                 {isAdmin && (
                   <TableCell align="center">

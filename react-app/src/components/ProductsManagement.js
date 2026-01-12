@@ -22,7 +22,7 @@ const ProductsManagement = () => {
     name: '',
     description: '',
     price: '',
-    available: true
+    quantity: 0
   });
 
   useEffect(() => {
@@ -50,11 +50,11 @@ const ProductsManagement = () => {
         name: product.name,
         description: product.description,
         price: product.price,
-        available: product.available
+        quantity: product.quantity || 0
       });
     } else {
       setEditingProduct(null);
-      setFormData({ name: '', description: '', price: '', available: true });
+      setFormData({ name: '', description: '', price: '', quantity: 0 });
     }
     setDialogOpen(true);
   };
@@ -136,8 +136,8 @@ const ProductsManagement = () => {
                 <TableCell align="right">{product.price ? product.price.toFixed(2) : '0.00'} MAD</TableCell>
                 <TableCell>
                   <Chip
-                    label={product.available ? 'Disponible' : 'Rupture'}
-                    color={product.available ? 'success' : 'error'}
+                    label={product.quantity > 0 ? 'Disponible' : 'Rupture'}
+                    color={product.quantity > 0 ? 'success' : 'error'}
                     size="small"
                   />
                 </TableCell>
@@ -192,19 +192,15 @@ const ProductsManagement = () => {
               inputProps={{ step: '0.01', min: '0' }}
               required
             />
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              <TextField
-                select
-                label="Disponibilité"
-                value={formData.available}
-                onChange={(e) => setFormData({ ...formData, available: e.target.value === 'true' })}
-                SelectProps={{ native: true }}
-                fullWidth
-              >
-                <option value="true">Disponible</option>
-                <option value="false">Rupture de stock</option>
-              </TextField>
-            </Box>
+            <TextField
+              fullWidth
+              type="number"
+              label="Quantité en stock"
+              value={formData.quantity}
+              onChange={(e) => setFormData({ ...formData, quantity: parseInt(e.target.value) || 0 })}
+              inputProps={{ min: '0', step: '1' }}
+              required
+            />
           </Box>
         </DialogContent>
         <DialogActions>
