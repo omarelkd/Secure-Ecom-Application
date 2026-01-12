@@ -5,7 +5,7 @@
 # Vérifie que tous les composants DevSecOps sont correctement configurés
 ##############################################################################
 
-set -e
+# Note: On n'utilise pas set -e car on veut que le script continue même si des checks échouent
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -98,10 +98,11 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 
 for script in "$PROJECT_ROOT/devsecops"/*.sh; do
     if [ -f "$script" ]; then
+        SCRIPT_NAME=$(basename "$script")
         if [ -x "$script" ]; then
-            print_check "$(basename $script) - exécutable" "PASS"
+            print_check "$SCRIPT_NAME - exécutable" "PASS"
         else
-            print_check "$(basename $script) - exécutable" "FAIL" "Script non exécutable"
+            print_check "$SCRIPT_NAME - exécutable" "FAIL" "Script non exécutable"
         fi
     fi
 done

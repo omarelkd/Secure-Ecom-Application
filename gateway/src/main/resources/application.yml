@@ -21,8 +21,12 @@ spring:
               uri: http://localhost:8081
               predicates:
                 - Path=/products/**
+              filters:
+                - PreserveHostHeader
 
             - id: order-service
               uri: http://localhost:8082
               predicates:
                 - Path=/orders/**
+              filters:
+                - PreserveHostHeader

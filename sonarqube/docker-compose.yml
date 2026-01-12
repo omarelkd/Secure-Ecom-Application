@@ -28,7 +28,6 @@ services:
       SONAR_JDBC_USERNAME: sonarqube
       SONAR_JDBC_PASSWORD: sonarqube_password
       SONAR_ES_BOOTSTRAP_CHECKS_DISABLED: "true"
-      SONAR_SEARCH_JAVAADDITIONALOPTS: "-Dbootstrap.system_call_filter=false"
     ports:
       - "9000:9000"
     volumes:

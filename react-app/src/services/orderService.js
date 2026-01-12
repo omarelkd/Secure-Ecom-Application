@@ -1,59 +1,43 @@
-import axios from 'axios';
+import apiClient from './apiClient';
 
-const API_URL = 'http://localhost:8085/orders';
-
-const getAuthHeader = () => {
-  const token = window.keycloak?.token;
-  return token ? { Authorization: `Bearer ${token}` } : {};
-};
+const API_URL = '/orders';
 
 export const orderService = {
   getMyOrders: async () => {
-    const response = await axios.get(API_URL, {
-      headers: getAuthHeader()
-    });
+    const response = await apiClient.get(API_URL);
     return response.data;
   },
 
   getOrderById: async (id) => {
-    const response = await axios.get(`${API_URL}/${id}`, {
-      headers: getAuthHeader()
-    });
+    const response = await apiClient.get(`${API_URL}/${id}`);
     return response.data;
   },
 
   getAllOrders: async () => {
-    const response = await axios.get(`${API_URL}/admin`, {
-      headers: getAuthHeader()
-    });
+    const response = await apiClient.get(`${API_URL}/admin`);
     return response.data;
   },
 
   getOrdersByStatus: async (status) => {
-    const response = await axios.get(`${API_URL}/status/${status}`, {
-      headers: getAuthHeader()
-    });
+    const response = await apiClient.get(`${API_URL}/status/${status}`);
     return response.data;
   },
 
   createOrder: async (order) => {
-    const response = await axios.post(API_URL, order, {
-      headers: getAuthHeader()
-    });
+    const response = await apiClient.post(API_URL, order);
     return response.data;
   },
 
   updateOrderStatus: async (id, status) => {
-    const response = await axios.put(`${API_URL}/${id}/status`, null, {
-      params: { status },
-      headers: getAuthHeader()
+    const response = await apiClient.put(`${API_URL}/${id}/status`, null, {
+      params: { status }
     });
     return response.data;
   },
 
   deleteOrder: async (id) => {
-    await axios.delete(`${API_URL}/${id}`, {
-      headers: getAuthHeader()
-    });
+    await apiClient.delete(`${API_URL}/${id}`);
   }
 };
+
+export default orderService;

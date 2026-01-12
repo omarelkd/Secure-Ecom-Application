@@ -151,7 +151,7 @@ const Products = () => {
                 </Typography>
 
                 <Typography variant="h5" color="primary">
-                  {product.price.toFixed(2)} MAD
+                  {product.price ? product.price.toFixed(2) : '0.00'} MAD
                 </Typography>
               </CardContent>
 
