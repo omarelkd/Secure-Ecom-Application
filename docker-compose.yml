@@ -168,7 +168,7 @@ services:
         REACT_APP_KEYCLOAK_URL: http://localhost:8080
         REACT_APP_KEYCLOAK_REALM: microservices-realm
         REACT_APP_KEYCLOAK_CLIENT_ID: react-client
-        REACT_APP_API_URL: /api
+        REACT_APP_API_URL: http://localhost:8085
     container_name: react_frontend
     ports:
       - "3000:3000"

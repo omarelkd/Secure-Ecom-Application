@@ -22,9 +22,10 @@ const OrdersManagement = ({ isAdmin }) => {
       setLoading(true);
       setError(null);
       const data = await orderService.getAllOrders();
-      setOrders(data);
+      setOrders(Array.isArray(data) ? data : []);
     } catch (err) {
       setError(err.response?.data?.message || 'Erreur de chargement');
+      setOrders([]);
     } finally {
       setLoading(false);
     }
@@ -109,7 +110,7 @@ const OrdersManagement = ({ isAdmin }) => {
                 <TableCell>{order.productName}</TableCell>
                 <TableCell align="right">{order.quantity}</TableCell>
                 <TableCell align="right">
-                  <strong>{order.totalPrice.toFixed(2)} MAD</strong>
+                  <strong>{order.totalPrice ? order.totalPrice.toFixed(2) : '0.00'} MAD</strong>
                 </TableCell>
                 <TableCell>
                   <Select

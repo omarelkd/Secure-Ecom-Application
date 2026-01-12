@@ -11,8 +11,10 @@ import {
 } from '@mui/icons-material';
 import { productService } from '../services/productService';
 import OrderFormModal from '../components/OrderFormModal';
+import { canManageProducts } from '../utils/roleUtils';
 
 const Products = () => {
+  const keycloak = window.keycloak;
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -55,7 +57,7 @@ const Products = () => {
     }
 
     if (availableOnly) {
-      filtered = filtered.filter(p => p.available);
+      filtered = filtered.filter(p => p.quantity > 0);
     }
 
     setFilteredProducts(filtered);
@@ -130,7 +132,7 @@ const Products = () => {
                   <Typography variant="h6" component="div">
                     {product.name}
                   </Typography>
-                  {product.available ? (
+                  {product.quantity > 0 ? (
                     <Chip
                       icon={<AvailableIcon />}
                       label="Disponible"
@@ -161,7 +163,7 @@ const Products = () => {
                   variant="contained"
                   startIcon={<CartIcon />}
                   onClick={() => handleOrderClick(product)}
-                  disabled={!product.available}
+                  disabled={product.quantity <= 0}
                 >
                   Commander
                 </Button>

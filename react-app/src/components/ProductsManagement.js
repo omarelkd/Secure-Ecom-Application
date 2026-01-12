@@ -22,7 +22,7 @@ const ProductsManagement = () => {
     name: '',
     description: '',
     price: '',
-    available: true
+    quantity: 0
   });
 
   useEffect(() => {
@@ -34,9 +34,10 @@ const ProductsManagement = () => {
       setLoading(true);
       setError(null);
       const data = await productService.getAllProducts();
-      setProducts(data);
+      setProducts(Array.isArray(data) ? data : []);
     } catch (err) {
       setError(err.response?.data?.message || 'Erreur de chargement');
+      setProducts([]);
     } finally {
       setLoading(false);
     }
@@ -49,11 +50,11 @@ const ProductsManagement = () => {
         name: product.name,
         description: product.description,
         price: product.price,
-        available: product.available
+        quantity: product.quantity || 0
       });
     } else {
       setEditingProduct(null);
-      setFormData({ name: '', description: '', price: '', available: true });
+      setFormData({ name: '', description: '', price: '', quantity: 0 });
     }
     setDialogOpen(true);
   };
@@ -65,10 +66,16 @@ const ProductsManagement = () => {
 
   const handleSubmit = async () => {
     try {
+      const productData = {
+        ...formData,
+        price: parseFloat(formData.price),
+        quantity: parseInt(formData.quantity, 10)
+      };
+      
       if (editingProduct) {
-        await productService.updateProduct(editingProduct.id, formData);
+        await productService.updateProduct(editingProduct.id, productData);
       } else {
-        await productService.createProduct(formData);
+        await productService.createProduct(productData);
       }
       handleCloseDialog();
       loadProducts();
@@ -122,6 +129,7 @@ const ProductsManagement = () => {
               <TableCell><strong>Nom</strong></TableCell>
               <TableCell><strong>Description</strong></TableCell>
               <TableCell align="right"><strong>Prix</strong></TableCell>
+              <TableCell align="right"><strong>Quantité</strong></TableCell>
               <TableCell><strong>Disponibilité</strong></TableCell>
               <TableCell align="center"><strong>Actions</strong></TableCell>
             </TableRow>
@@ -132,11 +140,12 @@ const ProductsManagement = () => {
                 <TableCell>{product.id}</TableCell>
                 <TableCell>{product.name}</TableCell>
                 <TableCell>{product.description}</TableCell>
-                <TableCell align="right">{product.price.toFixed(2)} MAD</TableCell>
+                <TableCell align="right">{product.price ? product.price.toFixed(2) : '0.00'} MAD</TableCell>
+                <TableCell align="right">{product.quantity || 0}</TableCell>
                 <TableCell>
                   <Chip
-                    label={product.available ? 'Disponible' : 'Rupture'}
-                    color={product.available ? 'success' : 'error'}
+                    label={product.quantity > 0 ? 'Disponible' : 'Rupture'}
+                    color={product.quantity > 0 ? 'success' : 'error'}
                     size="small"
                   />
                 </TableCell>
@@ -187,23 +196,19 @@ const ProductsManagement = () => {
               type="number"
               label="Prix (MAD)"
               value={formData.price}
-              onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
+              onChange={(e) => setFormData({ ...formData, price: e.target.value })}
               inputProps={{ step: '0.01', min: '0' }}
               required
             />
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              <TextField
-                select
-                label="Disponibilité"
-                value={formData.available}
-                onChange={(e) => setFormData({ ...formData, available: e.target.value === 'true' })}
-                SelectProps={{ native: true }}
-                fullWidth
-              >
-                <option value="true">Disponible</option>
-                <option value="false">Rupture de stock</option>
-              </TextField>
-            </Box>
+            <TextField
+              fullWidth
+              type="number"
+              label="Quantité"
+              value={formData.quantity}
+              onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
+              inputProps={{ min: '0' }}
+              required
+            />
           </Box>
         </DialogContent>
         <DialogActions>
