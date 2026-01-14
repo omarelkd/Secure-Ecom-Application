@@ -1,59 +1,43 @@
-import axios from 'axios';
+import apiClient from './apiClient';
 
-const API_URL = 'http://localhost:8085/products';
-
-const getAuthHeader = () => {
-  const token = window.keycloak?.token;
-  return token ? { Authorization: `Bearer ${token}` } : {};
-};
+const API_URL = '/products';
 
 export const productService = {
   getAllProducts: async () => {
-    const response = await axios.get(API_URL, {
-      headers: getAuthHeader()
-    });
+    const response = await apiClient.get(API_URL);
     return response.data;
   },
 
   getProductById: async (id) => {
-    const response = await axios.get(`${API_URL}/${id}`, {
-      headers: getAuthHeader()
-    });
+    const response = await apiClient.get(`${API_URL}/${id}`);
     return response.data;
   },
 
   searchProducts: async (name) => {
-    const response = await axios.get(`${API_URL}/search`, {
-      params: { name },
-      headers: getAuthHeader()
+    const response = await apiClient.get(`${API_URL}/search`, {
+      params: { name }
     });
     return response.data;
   },
 
   getAvailableProducts: async () => {
-    const response = await axios.get(`${API_URL}/available`, {
-      headers: getAuthHeader()
-    });
+    const response = await apiClient.get(`${API_URL}/available`);
     return response.data;
   },
 
   createProduct: async (product) => {
-    const response = await axios.post(API_URL, product, {
-      headers: getAuthHeader()
-    });
+    const response = await apiClient.post(API_URL, product);
     return response.data;
   },
 
   updateProduct: async (id, product) => {
-    const response = await axios.put(`${API_URL}/${id}`, product, {
-      headers: getAuthHeader()
-    });
+    const response = await apiClient.put(`${API_URL}/${id}`, product);
     return response.data;
   },
 
   deleteProduct: async (id) => {
-    await axios.delete(`${API_URL}/${id}`, {
-      headers: getAuthHeader()
-    });
+    await apiClient.delete(`${API_URL}/${id}`);
   }
 };
+
+export default productService;

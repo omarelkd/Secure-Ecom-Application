@@ -45,16 +45,15 @@ public class ProductController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    // @PreAuthorize("hasAuthority('ROLE_ADMIN')") // Disabled for permitAll architecture
     public ResponseEntity<ProductResponse> createProduct(
-            @Valid @RequestBody ProductRequest request,
-            Authentication auth) {
-        ProductResponse product = productService.createProduct(request, auth.getName());
+            @Valid @RequestBody ProductRequest request) {
+        ProductResponse product = productService.createProduct(request, "admin");
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    // @PreAuthorize("hasAuthority('ROLE_ADMIN')") // Disabled for permitAll architecture
     public ResponseEntity<ProductResponse> updateProduct(
             @PathVariable Long id,
             @Valid @RequestBody ProductRequest request) {
@@ -63,15 +62,15 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    // @PreAuthorize("hasAuthority('ROLE_ADMIN')") // Disabled for permitAll architecture
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/admin")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<String> adminProducts(Authentication auth) {
-        return ResponseEntity.ok("Gestion des produits (ADMIN) : " + auth.getName());
+    // @PreAuthorize("hasAuthority('ROLE_ADMIN')") // Disabled for permitAll architecture
+    public ResponseEntity<String> adminProducts() {
+        return ResponseEntity.ok("Gestion des produits (ADMIN)");
     }
 }

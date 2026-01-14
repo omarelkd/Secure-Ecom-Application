@@ -16,8 +16,9 @@ const OrderFormModal = ({ open, onClose, product, onSuccess }) => {
       setError(null);
 
       const orderData = {
-        productId: product.id,
-        quantity: parseInt(quantity)
+        productName: product.name,
+        quantity: parseInt(quantity),
+        totalPrice: parseFloat((product.price * quantity).toFixed(2))
       };
 
       await orderService.createOrder(orderData);

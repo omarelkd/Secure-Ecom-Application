@@ -1,0 +1,55 @@
+# ============= Dockerfile pour Production =============
+# Utilisation de multi-stage build pour réduire la taille
+
+# Stage 1: Build
+FROM maven:3.9-eclipse-temurin-21 AS builder
+
+WORKDIR /app
+
+# Copier les fichiers pom.xml
+COPY pom.xml .
+
+# Télécharger les dépendances Maven (layer cachable)
+RUN mvn dependency:go-offline -B
+
+# Copier le code source
+COPY src ./src
+
+# Compiler et créer le JAR
+RUN mvn clean package -DskipTests -q
+
+# Stage 2: Runtime
+FROM eclipse-temurin:21-jre-alpine
+
+# Métadonnées
+LABEL maintainer="DevTeam"
+LABEL description="Spring Boot Microservice for OAuth2/OIDC"
+LABEL version="1.0"
+
+# Créer un utilisateur non-root pour sécurité
+RUN addgroup -g 1001 appgroup && \
+    adduser -D -u 1001 -G appgroup appuser
+
+WORKDIR /app
+
+# Copier le JAR du builder
+COPY --from=builder /app/target/*.jar app.jar
+
+# Changer la propriété du fichier JAR
+RUN chown appuser:appgroup app.jar
+
+# Utiliser l'utilisateur non-root
+USER appuser
+
+# Exposer le port
+EXPOSE 8080
+
+# Healthcheck
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD wget --quiet --tries=1 --spider http://localhost:8080/ || exit 1
+
+# Optimisations JVM
+ENV JAVA_OPTS="-Xms256m -Xmx512m -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
+
+# Lancer l'application
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]

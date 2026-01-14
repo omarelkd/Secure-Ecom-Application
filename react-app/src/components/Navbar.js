@@ -16,7 +16,8 @@ const Navbar = ({ keycloak }) => {
   };
 
   const hasRole = (role) => {
-    return keycloak?.hasRealmRole(role);
+    const roleToCheck = role.startsWith('ROLE_') ? role : `ROLE_${role}`;
+    return keycloak?.hasRealmRole(roleToCheck);
   };
 
   const username = keycloak?.tokenParsed?.preferred_username || 'User';

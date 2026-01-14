@@ -1,0 +1,307 @@
+{
+  "SchemaVersion": 2,
+  "CreatedAt": "2026-01-11T22:20:55.802089144Z",
+  "ArtifactName": "/workspaces/Secure-Ecom-Application/react-app",
+  "ArtifactType": "filesystem",
+  "Metadata": {
+    "ImageConfig": {
+      "architecture": "",
+      "created": "0001-01-01T00:00:00Z",
+      "os": "",
+      "rootfs": {
+        "type": "",
+        "diff_ids": null
+      },
+      "config": {}
+    }
+  },
+  "Results": [
+    {
+      "Target": "package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2021-3803",
+          "PkgID": "nth-check@1.0.2",
+          "PkgName": "nth-check",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/nth-check@1.0.2"
+          },
+          "InstalledVersion": "1.0.2",
+          "FixedVersion": "2.0.1",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2021-3803",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "nodejs-nth-check: inefficient regular expression complexity",
+          "Description": "nth-check is vulnerable to Inefficient Regular Expression Complexity",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-1333"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3,
+            "nvd": 3,
+            "redhat": 2,
+            "ubuntu": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "nvd": {
+              "V2Vector": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V2Score": 5,
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2021-3803",
+            "https://github.com/advisories/GHSA-rp65-9cf3-cjxr",
+            "https://github.com/fb55/nth-check",
+            "https://github.com/fb55/nth-check/commit/9894c1d2010870c351f66c6f6efcf656e26bb726",
+            "https://github.com/fb55/nth-check/commit/9894c1d2010870c351f66c6f6efcf656e26bb726 (v2.0.1)",
+            "https://huntr.dev/bounties/8cf8cc06-d2cf-4b4e-b42c-99fafb0b04d0",
+            "https://huntr.dev/bounties/8cf8cc06-d2cf-4b4e-b42c-99fafb0b04d0/",
+            "https://lists.debian.org/debian-lts-announce/2023/05/msg00023.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2021-3803",
+            "https://ubuntu.com/security/notices/USN-6114-1",
+            "https://www.cve.org/CVERecord?id=CVE-2021-3803"
+          ],
+          "PublishedDate": "2021-09-17T07:15:09.153Z",
+          "LastModifiedDate": "2024-11-21T06:22:28.873Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2023-44270",
+          "PkgID": "postcss@7.0.39",
+          "PkgName": "postcss",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/postcss@7.0.39"
+          },
+          "InstalledVersion": "7.0.39",
+          "FixedVersion": "8.4.31",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-44270",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "PostCSS: Improper input validation in PostCSS",
+          "Description": "An issue was discovered in PostCSS before 8.4.31. The vulnerability affects linters using PostCSS to parse external untrusted CSS. An attacker can prepare CSS in such a way that it will contains parts parsed by PostCSS as a CSS comment. After processing by PostCSS, it will be included in the PostCSS output in CSS nodes (rules, properties) despite being included in a comment.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-74"
+          ],
+          "VendorSeverity": {
+            "ghsa": 2,
+            "nvd": 2,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
+              "V3Score": 5.3
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
+              "V3Score": 5.3
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
+              "V3Score": 5.3
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2023-44270",
+            "https://github.com/github/advisory-database/issues/2820",
+            "https://github.com/postcss/postcss",
+            "https://github.com/postcss/postcss/blob/main/lib/tokenize.js#L25",
+            "https://github.com/postcss/postcss/commit/58cc860b4c1707510c9cd1bc1fa30b423a9ad6c5",
+            "https://github.com/postcss/postcss/releases/tag/8.4.31",
+            "https://lists.debian.org/debian-lts-announce/2024/12/msg00025.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2023-44270",
+            "https://www.cve.org/CVERecord?id=CVE-2023-44270"
+          ],
+          "PublishedDate": "2023-09-29T22:15:11.867Z",
+          "LastModifiedDate": "2025-11-03T22:16:27.913Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2025-15284",
+          "PkgID": "qs@6.14.0",
+          "PkgName": "qs",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/qs@6.14.0"
+          },
+          "InstalledVersion": "6.14.0",
+          "FixedVersion": "6.14.1",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-15284",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "qs: qs: Denial of Service via improper input validation in array parsing",
+          "Description": "Improper Input Validation vulnerability in qs (parse modules) allows HTTP DoS.This issue affects qs: \u003c 6.14.1.\n\n\nSummaryThe arrayLimit option in qs does not enforce limits for bracket notation (a[]=1\u0026a[]=2), allowing attackers to cause denial-of-service via memory exhaustion. Applications using arrayLimit for DoS protection are vulnerable.\n\nDetailsThe arrayLimit option only checks limits for indexed notation (a[0]=1\u0026a[1]=2) but completely bypasses it for bracket notation (a[]=1\u0026a[]=2).\n\nVulnerable code (lib/parse.js:159-162):\n\nif (root === '[]' \u0026\u0026 options.parseArrays) {\n    obj = utils.combine([], leaf);  // No arrayLimit check\n}\n\n\n\n\n\nWorking code (lib/parse.js:175):\n\nelse if (index \u003c= options.arrayLimit) {  // Limit checked here\n    obj = [];\n    obj[index] = leaf;\n}\n\n\n\n\n\nThe bracket notation handler at line 159 uses utils.combine([], leaf) without validating against options.arrayLimit, while indexed notation at line 175 checks index \u003c= options.arrayLimit before creating arrays.\n\nPoCTest 1 - Basic bypass:\n\nnpm install qs\n\n\n\n\n\nconst qs = require('qs');\nconst result = qs.parse('a[]=1\u0026a[]=2\u0026a[]=3\u0026a[]=4\u0026a[]=5\u0026a[]=6', { arrayLimit: 5 });\nconsole.log(result.a.length);  // Output: 6 (should be max 5)\n\n\n\n\n\nTest 2 - DoS demonstration:\n\nconst qs = require('qs');\nconst attack = 'a[]=' + Array(10000).fill('x').join('\u0026a[]=');\nconst result = qs.parse(attack, { arrayLimit: 100 });\nconsole.log(result.a.length);  // Output: 10000 (should be max 100)\n\n\n\n\n\nConfiguration:\n\n  *  arrayLimit: 5 (test 1) or arrayLimit: 100 (test 2)\n  *  Use bracket notation: a[]=value (not indexed a[0]=value)\n\n\nImpactDenial of Service via memory exhaustion. Affects applications using qs.parse() with user-controlled input and arrayLimit for protection.\n\nAttack scenario:\n\n  *  Attacker sends HTTP request: GET /api/search?filters[]=x\u0026filters[]=x\u0026...\u0026filters[]=x (100,000+ times)\n  *  Application parses with qs.parse(query, { arrayLimit: 100 })\n  *  qs ignores limit, parses all 100,000 elements into array\n  *  Server memory exhausted → application crashes or becomes unresponsive\n  *  Service unavailable for all users\nReal-world impact:\n\n  *  Single malicious request can crash server\n  *  No authentication required\n  *  Easy to automate and scale\n  *  Affects any endpoint parsing query strings with bracket notation",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-20"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3,
+            "redhat": 3
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2025-15284",
+            "https://github.com/ljharb/qs",
+            "https://github.com/ljharb/qs/commit/3086902ecf7f088d0d1803887643ac6c03d415b9",
+            "https://github.com/ljharb/qs/security/advisories/GHSA-6rw7-vpxm-498p",
+            "https://nvd.nist.gov/vuln/detail/CVE-2025-15284",
+            "https://www.cve.org/CVERecord?id=CVE-2025-15284"
+          ],
+          "PublishedDate": "2025-12-29T23:15:42.703Z",
+          "LastModifiedDate": "2025-12-31T20:43:25.83Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2025-30359",
+          "PkgID": "webpack-dev-server@4.15.2",
+          "PkgName": "webpack-dev-server",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/webpack-dev-server@4.15.2"
+          },
+          "InstalledVersion": "4.15.2",
+          "FixedVersion": "5.2.1",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-30359",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "webpack-dev-server: webpack-dev-server information exposure",
+          "Description": "webpack-dev-server allows users to use webpack with a development server that provides live reloading. Prior to version 5.2.1, webpack-dev-server users' source code may be stolen when they access a malicious web site. Because the request for classic script by a script tag is not subject to same origin policy, an attacker can inject a malicious script in their site and run the script. Note that the attacker has to know the port and the output entrypoint script path. Combined with prototype pollution, the attacker can get a reference to the webpack runtime variables. By using `Function::toString` against the values in `__webpack_modules__`, the attacker can get the source code. Version 5.2.1 contains a patch for the issue.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-749"
+          ],
+          "VendorSeverity": {
+            "ghsa": 2,
+            "nvd": 2,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:N/A:N",
+              "V3Score": 5.3
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 5.9
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:N/A:N",
+              "V3Score": 5.3
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2025-30359",
+            "https://github.com/webpack/webpack-dev-server",
+            "https://github.com/webpack/webpack-dev-server/commit/5c9378bb01276357d7af208a0856ca2163db188e",
+            "https://github.com/webpack/webpack-dev-server/commit/d2575ad8dfed9207ed810b5ea0ccf465115a2239",
+            "https://github.com/webpack/webpack-dev-server/security/advisories/GHSA-4v9v-hfq4-rm2v",
+            "https://nvd.nist.gov/vuln/detail/CVE-2025-30359",
+            "https://www.cve.org/CVERecord?id=CVE-2025-30359"
+          ],
+          "PublishedDate": "2025-06-03T18:15:25.243Z",
+          "LastModifiedDate": "2025-10-03T01:12:23.03Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2025-30360",
+          "PkgID": "webpack-dev-server@4.15.2",
+          "PkgName": "webpack-dev-server",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/webpack-dev-server@4.15.2"
+          },
+          "InstalledVersion": "4.15.2",
+          "FixedVersion": "5.2.1",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-30360",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "webpack-dev-server: webpack-dev-server information exposure",
+          "Description": "webpack-dev-server allows users to use webpack with a development server that provides live reloading. Prior to version 5.2.1, webpack-dev-server users' source code may be stolen when you access a malicious web site with non-Chromium based browser. The `Origin` header is checked to prevent Cross-site WebSocket hijacking from happening, which was reported by CVE-2018-14732. But webpack-dev-server always allows IP address `Origin` headers. This allows websites that are served on IP addresses to connect WebSocket. An attacker can obtain source code via a method similar to that used to exploit CVE-2018-14732. Version 5.2.1 contains a patch for the issue.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-346"
+          ],
+          "VendorSeverity": {
+            "ghsa": 2,
+            "nvd": 2,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+              "V3Score": 6.5
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+              "V3Score": 6.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+              "V3Score": 6.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2025-30360",
+            "https://github.com/webpack/webpack-dev-server",
+            "https://github.com/webpack/webpack-dev-server/blob/55220a800ba4e30dbde2d98785ecf4c80b32f711/lib/Server.js#L3113-L3127",
+            "https://github.com/webpack/webpack-dev-server/commit/5c9378bb01276357d7af208a0856ca2163db188e",
+            "https://github.com/webpack/webpack-dev-server/commit/72efaab83381a0e1c4914adf401cbd210b7de7eb",
+            "https://github.com/webpack/webpack-dev-server/commit/d2575ad8dfed9207ed810b5ea0ccf465115a2239",
+            "https://github.com/webpack/webpack-dev-server/security/advisories/GHSA-9jgg-88mc-972h",
+            "https://nvd.nist.gov/vuln/detail/CVE-2025-30360",
+            "https://www.cve.org/CVERecord?id=CVE-2025-30360"
+          ],
+          "PublishedDate": "2025-06-03T18:15:25.41Z",
+          "LastModifiedDate": "2025-11-21T18:26:18.64Z"
+        }
+      ]
+    }
+  ]
+}

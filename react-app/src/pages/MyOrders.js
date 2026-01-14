@@ -98,7 +98,7 @@ const MyOrders = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map((order) => (
+              {Array.isArray(orders) && orders.map((order) => (
                 <TableRow key={order.id} hover>
                   <TableCell>{order.id}</TableCell>
                   <TableCell>
@@ -106,7 +106,7 @@ const MyOrders = () => {
                   </TableCell>
                   <TableCell align="right">{order.quantity}</TableCell>
                   <TableCell align="right">
-                    <strong>{order.totalPrice.toFixed(2)} MAD</strong>
+                    <strong>{order.totalPrice ? order.totalPrice.toFixed(2) : '0.00'} MAD</strong>
                   </TableCell>
                   <TableCell>
                     <Chip
@@ -116,7 +116,7 @@ const MyOrders = () => {
                     />
                   </TableCell>
                   <TableCell>
-                    {new Date(order.orderDate).toLocaleDateString('fr-FR', {
+                    {new Date(order.createdAt).toLocaleDateString('fr-FR', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric',

@@ -6,6 +6,7 @@ import ma.enset.orderservice.dto.OrderRequest;
 import ma.enset.orderservice.dto.OrderResponse;
 import ma.enset.orderservice.entity.Order.OrderStatus;
 import ma.enset.orderservice.service.OrderService;
+import ma.enset.orderservice.util.JwtUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,10 +21,14 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
+    private final JwtUtils jwtUtils;
 
     @GetMapping
-    public ResponseEntity<List<OrderResponse>> getMyOrders(Authentication authentication) {
-        String username = extractUsername(authentication);
+    public ResponseEntity<List<OrderResponse>> getMyOrders(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        String username = jwtUtils.extractUsernameFromToken(authHeader);
+        if ("anonymous".equals(username)) {
+            return ResponseEntity.ok(List.of());
+        }
         List<OrderResponse> orders = orderService.getOrdersByUsername(username);
         return ResponseEntity.ok(orders);
     }
@@ -37,28 +42,24 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<OrderResponse> createOrder(
             @Valid @RequestBody OrderRequest request,
-            Authentication authentication) {
-        String username = extractUsername(authentication);
+            @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        String username = jwtUtils.extractUsernameFromToken(authHeader);
+        if ("anonymous".equals(username)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
         OrderResponse order = orderService.createOrder(request, username);
         return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
-    
-    private String extractUsername(Authentication authentication) {
-        if (authentication.getPrincipal() instanceof org.springframework.security.oauth2.jwt.Jwt jwt) {
-            return jwt.getClaimAsString("preferred_username");
-        }
-        return authentication.getName();
-    }
 
     @GetMapping("/admin")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MANAGER')")
-    public ResponseEntity<List<OrderResponse>> getAllOrders(Authentication auth) {
+    // @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MANAGER')") // Disabled for permitAll architecture
+    public ResponseEntity<List<OrderResponse>> getAllOrders(@RequestHeader(value = "Authorization", required = false) String authHeader) {
         List<OrderResponse> orders = orderService.getAllOrders();
         return ResponseEntity.ok(orders);
     }
 
     @PutMapping("/{id}/status")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MANAGER')")
+    // @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MANAGER')") // Disabled for permitAll architecture
     public ResponseEntity<OrderResponse> updateOrderStatus(
             @PathVariable Long id,
             @RequestParam OrderStatus status) {
@@ -67,14 +68,14 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    // @PreAuthorize("hasAuthority('ROLE_ADMIN')") // Disabled for permitAll architecture
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/status/{status}")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MANAGER')")
+    // @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_MANAGER')") // Disabled for permitAll architecture
     public ResponseEntity<List<OrderResponse>> getOrdersByStatus(@PathVariable OrderStatus status) {
         List<OrderResponse> orders = orderService.getOrdersByStatus(status);
         return ResponseEntity.ok(orders);

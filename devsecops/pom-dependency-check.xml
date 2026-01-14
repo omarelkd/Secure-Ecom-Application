@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <!--
+    Configuration OWASP Dependency-Check pour Maven
+    Scan les dépendances Maven pour les vulnérabilités connues
+  -->
+  <modelVersion>4.0.0</modelVersion>
+  
+  <name>Dependency Check Configuration</name>
+  <description>Configuration Maven pour OWASP Dependency-Check</description>
+
+  <build>
+    <plugins>
+      <!-- OWASP Dependency-Check Maven Plugin -->
+      <plugin>
+        <groupId>org.owasp</groupId>
+        <artifactId>dependency-check-maven</artifactId>
+        <version>9.0.0</version>
+        <configuration>
+          <!-- Base de données des vulnérabilités -->
+          <dataDirectory>${project.basedir}/dependency-check-data</dataDirectory>
+          
+          <!-- Format de rapport -->
+          <format>ALL</format>
+          
+          <!-- Répertoire de sortie -->
+          <reportDirectory>${project.basedir}/dependency-check-report</reportDirectory>
+          
+          <!-- Niveau de risque minimum pour signaler -->
+          <failBuildOnCVSS>7.0</failBuildOnCVSS>
+          
+          <!-- Analyser les dépendances transitives -->
+          <enableExperimental>false</enableExperimental>
+          
+          <!-- Supprimez les faux positifs (fichier de suppression) -->
+          <suppressionFile>${project.basedir}/dependency-check-suppression.xml</suppressionFile>
+          
+          <!-- Exclure les dépendances -->
+          <excludes>
+            <exclude>**/test/**</exclude>
+            <exclude>**/target/**</exclude>
+          </excludes>
+          
+          <!-- Analyseurs activés -->
+          <enableExperimental>false</enableExperimental>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

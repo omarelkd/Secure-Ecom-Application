@@ -2,6 +2,7 @@ package ma.enset.orderservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;  // ← IMPORT OBLIGATOIRE
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,7 +20,7 @@ import java.util.stream.Stream;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+// @EnableMethodSecurity - Disabled to allow Gateway-based security
 public class SecurityConfig {
 
     @Bean
@@ -28,11 +29,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/h2-console/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .oauth2ResourceServer(oauth2 ->
-                        oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
+                        .anyRequest().permitAll()
                 );
 
         http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
@@ -43,19 +40,19 @@ public class SecurityConfig {
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
-        
+
         // Extract username from preferred_username claim
         converter.setPrincipalClaimName("preferred_username");
-        
+
         converter.setJwtGrantedAuthoritiesConverter(jwt -> {
             Map<String, Object> realmAccess = jwt.getClaim("realm_access");
             Collection<GrantedAuthority> realmRoles = List.of();
-            
+
             if (realmAccess != null && realmAccess.get("roles") != null) {
                 @SuppressWarnings("unchecked")
                 List<String> roles = (List<String>) realmAccess.get("roles");
                 realmRoles = roles.stream()
-                        .map(SimpleGrantedAuthority::new)
+                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                         .collect(Collectors.toList());
             }
 
@@ -65,7 +62,7 @@ public class SecurityConfig {
             return Stream.concat(realmRoles.stream(), scopes.stream())
                     .collect(Collectors.toList());
         });
-        
+
         return converter;
     }
 }

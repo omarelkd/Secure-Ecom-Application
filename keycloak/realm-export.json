@@ -113,11 +113,12 @@
       "rootUrl": "http://localhost:3000",
       "baseUrl": "http://localhost:3000",
       "redirectUris": [
-        "http://localhost:3000/",
-        "http://localhost:3000/callback"
+        "http://localhost:3000/*",
+        "http://127.0.0.1:3000/*"
       ],
       "webOrigins": [
-        "+"
+        "http://localhost:3000",
+        "http://127.0.0.1:3000"
       ],
       "attributes": {
         "pkce.code.challenge.method": "S256",

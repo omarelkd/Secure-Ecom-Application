@@ -22,9 +22,10 @@ const OrdersManagement = ({ isAdmin }) => {
       setLoading(true);
       setError(null);
       const data = await orderService.getAllOrders();
-      setOrders(data);
+      setOrders(Array.isArray(data) ? data : []);
     } catch (err) {
       setError(err.response?.data?.message || 'Erreur de chargement');
+      setOrders([]);
     } finally {
       setLoading(false);
     }
@@ -74,8 +75,9 @@ const OrdersManagement = ({ isAdmin }) => {
           >
             <MenuItem value="ALL">Tous</MenuItem>
             <MenuItem value="PENDING">En attente</MenuItem>
-            <MenuItem value="PROCESSING">En cours</MenuItem>
-            <MenuItem value="COMPLETED">Complété</MenuItem>
+            <MenuItem value="CONFIRMED">Confirmé</MenuItem>
+            <MenuItem value="SHIPPED">Expédié</MenuItem>
+            <MenuItem value="DELIVERED">Livré</MenuItem>
             <MenuItem value="CANCELLED">Annulé</MenuItem>
           </Select>
         </FormControl>
@@ -109,7 +111,7 @@ const OrdersManagement = ({ isAdmin }) => {
                 <TableCell>{order.productName}</TableCell>
                 <TableCell align="right">{order.quantity}</TableCell>
                 <TableCell align="right">
-                  <strong>{order.totalPrice.toFixed(2)} MAD</strong>
+                  <strong>{order.totalPrice ? order.totalPrice.toFixed(2) : '0.00'} MAD</strong>
                 </TableCell>
                 <TableCell>
                   <Select
@@ -119,13 +121,14 @@ const OrdersManagement = ({ isAdmin }) => {
                     sx={{ minWidth: 130 }}
                   >
                     <MenuItem value="PENDING">En attente</MenuItem>
-                    <MenuItem value="PROCESSING">En cours</MenuItem>
-                    <MenuItem value="COMPLETED">Complété</MenuItem>
+                    <MenuItem value="CONFIRMED">Confirmé</MenuItem>
+                    <MenuItem value="SHIPPED">Expédié</MenuItem>
+                    <MenuItem value="DELIVERED">Livré</MenuItem>
                     <MenuItem value="CANCELLED">Annulé</MenuItem>
                   </Select>
                 </TableCell>
                 <TableCell>
-                  {new Date(order.orderDate).toLocaleDateString('fr-FR')}
+                  {new Date(order.createdAt).toLocaleDateString('fr-FR')}
                 </TableCell>
                 {isAdmin && (
                   <TableCell align="center">
